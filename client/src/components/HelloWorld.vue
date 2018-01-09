@@ -13,8 +13,8 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Blog / Vue.js App',
-      user: null || $root.user,
+      msg: 'Welcome to Vue.js App',
+      user: null || this.$root.user,
       articles: [],
       comments: []
     }

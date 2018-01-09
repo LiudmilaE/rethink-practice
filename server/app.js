@@ -7,6 +7,7 @@ const passport = require('passport');
 const User = require('./models/user');
 const config = require('./config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/blog', { useMongoClient: true });
@@ -18,6 +19,14 @@ const app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+if (app.get('env') === 'development') {
+	app.use(
+		cors({
+			origin: 'http://localhost:8080',
+		})
+	);
+}
 
 passport.initialize();
 // Create the strategy for JWT
