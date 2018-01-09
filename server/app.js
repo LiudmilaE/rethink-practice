@@ -62,7 +62,7 @@ app.get(
   	// send the user his own information
   	res.json(req.user);
   }
-	);
+);
 
 
 // catch 404 and forward to error handler
