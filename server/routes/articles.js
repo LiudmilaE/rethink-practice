@@ -27,6 +27,13 @@ router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, nex
     .catch(err => next(err));
 });
 
+router.get('/:id', (req, res, next) => {
+    Article.findById(req.params.id)
+    .then(article => {
+        res.json(article);
+    }).catch(err => next(err));
+});
+
 router.patch('/:id', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
     Article.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(article => {
