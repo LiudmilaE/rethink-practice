@@ -1,16 +1,12 @@
 <template>
-  <div class="container">
-      <h4 class="title is-4">Please, signup</h4>
+    <div class="container notification">
+        <h4 class="title is-4">Please, signup</h4>
         <b-notification v-if="error" type="is-danger" has-icon>
 			{{ error }}
 		</b-notification>
-      <section class="container notification">
         <form @submit.prevent="signup">
             <b-field label="Username">
                 <b-input v-model='username' maxlength="10" required type="text"></b-input>
-            </b-field>
-            <b-field label="Password">
-                <b-input v-model='password' required type="password"></b-input>
             </b-field>
             <b-field label="Full name"> 
                 <b-input v-model='name' maxlength="10" required type="text"></b-input>
@@ -18,10 +14,12 @@
             <b-field label="Email"> 
                 <b-input v-model="email" required type="email"></b-input>
             </b-field>
+            <b-field label="Password">
+                <b-input v-model='password' required type="password"></b-input>
+            </b-field>
             <button class="button is-success">Signup</button>
         </form>
-      </section>
-  </div>
+     </div>
 </template>
 
 <<script>

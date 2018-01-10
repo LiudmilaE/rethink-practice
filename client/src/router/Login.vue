@@ -1,14 +1,18 @@
 <template>
-  <div>
-      <h4>Please, login</h4>
-      <section v-if="error">{{ error }}</section>
-      <form @submit.prevent="login">
-          <label>Username<input v-model='username' maxlength="10" required type="text"></label>
-          <br>
-          <label>Password<input v-model='password' required type="text"></label>
-          <br>
-          <button>Login</button>
-      </form>
+  <div class="container notification">
+        <h4 class="title is-4">Please, login</h4>
+        <b-notification v-if="error" type="is-danger" has-icon>
+		{{ error }}
+	    </b-notification>
+        <form @submit.prevent="login">
+            <b-field label="Username">
+                <b-input v-model='username' maxlength="10" required type="text"></b-input>
+            </b-field>
+            <b-field label="Password">
+                <b-input v-model='password' required type="text"></b-input>
+            </b-field>
+            <button class="button is-success">Login</button>
+        </form>
   </div>
 </template>
 

@@ -28,7 +28,6 @@
         </div>
       </div>
     </nav>
-    
     <router-view/>
   </div>
 </template>
@@ -48,6 +47,12 @@ export default {
 </script>
 
 <style>
+@media screen and (min-width: 769px) {
+  .notification {
+    max-width: 50%;
+  }
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
