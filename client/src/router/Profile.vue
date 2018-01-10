@@ -1,7 +1,7 @@
 <template>
-  <section class="container" v-if="$root.user">
+  <section class="container" v-if="">
     <h2 class="title">Welcome to your blog, {{ $root.user.username }}!</h2>
-    <button class="button is-dark is-outlined">Write new article</button>
+    <router-link to="/articles/new"><span class="button is-dark is-outlined" >Write new article</span></router-link>
     <section class="container">
       <h3 class="subtitle">My articles</h3>
         <!-- <article-card v-for="(article, index) in articles" :key="article.id" :article="article"
