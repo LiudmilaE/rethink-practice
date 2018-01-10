@@ -1,10 +1,11 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <ul>
-      <li></li>
-    </ul>
-
+  <div class="hello hero is-warning is-bold is-medium">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Blog - Vue.js App </h1>
+        <h2 class="subtitle">Lorem ipsum dolor sit amet, ne quo quas vocibus appellantur, sumo soleat vim ex. Ei duo illud malis tacimates.</h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,7 +14,6 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Vue.js App',
       user: null || this.$root.user,
       articles: [],
       comments: []
