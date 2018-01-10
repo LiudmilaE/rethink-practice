@@ -72,14 +72,12 @@ export default {
 	methods: {
 		deleteArticle () {
 			let id = this.article._id;
-			if (this.comments.length>0) {
-				this.comments.forEach(comment => {
-					deleteComment(comment.id)
-				});
-			}
-			deleteArticle(id).
-				then(this.$emit('deleteArticle', true))
-			this.$router.push('/profile');	
+			let arrPromises = this.comments.map((comment) => deleteComment(comment._id));
+				Promise.all(arrPromises).then(() => {
+					deleteArticle(id).
+						then(this.$emit('deleteArticle', true))
+					this.$router.push('/profile');
+			 })
 		},
 		updateArticle () {
 			this.error = null;
