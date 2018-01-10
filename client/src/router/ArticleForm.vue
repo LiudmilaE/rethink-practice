@@ -29,7 +29,18 @@ export default {
 	methods: {
 		addArticle () {
 			this.error = null;
-
+			addArticle({
+				title: this.title,
+				content: this.content,
+			})
+			.then(() => {
+				this.$router.push('/profile');
+			}).catch(err => {
+				if(err && err.response) {
+					this.error = err.response.data.error
+				}
+				console.error("Article add error ", err)
+			})
 		}
 	}
 	

@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section class="container" v-if="$root.user">
     <h2 class="title">Welcome to your blog, {{ $root.user.username }}!</h2>
     <button class="button is-dark is-outlined">Write new article</button>
     <section class="container">
@@ -13,6 +13,7 @@
 <script>
 import { showUser } from '@/api/auth'
 import ArticleCard from '@/components/ArticleCard'
+//import { showArticles } from '@/api/articles'
 
 export default {
   data() {
@@ -35,6 +36,7 @@ export default {
       showUser(this.$root.user._id).then(user => {
         this.user = user;
       });
+      //showArticles()
     } 
   },
   components: {
