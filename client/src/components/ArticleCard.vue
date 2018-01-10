@@ -134,5 +134,4 @@ export default {
 	#total-comments {
 		margin: 2rem;
 	}
-
 </style>
