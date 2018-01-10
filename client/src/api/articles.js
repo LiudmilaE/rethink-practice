@@ -26,14 +26,14 @@ export function showArticles () {
 		});
 }
 
-//useful for edit article form
-export function showArticle(id) {
-	return articlesApi
-		.get('/'+id)
-		.then(response => {
-			return response.data;
-		})
-}
+//useful for edit article form ??
+// export function showArticle(id) {
+// 	return articlesApi
+// 		.get('/'+id)
+// 		.then(response => {
+// 			return response.data;
+// 		})
+// }
 
 export function updateArticle(id, data) {
 	return articlesApi

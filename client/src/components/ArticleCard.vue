@@ -58,7 +58,7 @@ export default {
 						this.error = err.response.data.error
 					console.error('Trip edit err', err.response.data.error);
 					}
-				})			
+				});			
 		},
 	},
   created() {

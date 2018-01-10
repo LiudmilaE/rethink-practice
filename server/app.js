@@ -55,12 +55,9 @@ const strategy = new Strategy({
 //tell passport to use it
 passport.use(strategy);
 
-
-const index = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const articlesRoutes = require('./routes/articles');
 
-app.use('/', index);
 app.use('/api', authRoutes);
 app.use('/api/articles', articlesRoutes);
 
