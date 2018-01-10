@@ -9,7 +9,8 @@
         <article-card v-for="(article, index) in articles" 
           :key="article.id" :article="article"
           @deleteArticle="deleteThisArticle(index)"
-          @updateArticle="updateThisArticle(index, $event)"></article-card>
+          @updateArticle="updateThisArticle(index, $event)"
+          @addComment="addComment(index, $event)"></article-card>
     </section>
   </section>
 </template>
@@ -32,7 +33,10 @@ export default {
     },
     updateThisArticle: function(index, article) {
       //TODO showArticle
-    }
+    },
+    addComment: function () {
+
+    },
   },
   created() {
     if (this.$root.user) {

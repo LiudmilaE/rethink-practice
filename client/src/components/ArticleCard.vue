@@ -6,7 +6,7 @@
 				<div class="content">
 					<p>{{ article.content }}</p>
 				</div>
-				<section>
+				<section v-if="$root.user">
 					<div class="media-content">
 						<form @submit.prevent="addComment">
 							<div class="field">
@@ -95,7 +95,11 @@ export default {
 			this.error = null;
 			addComment({
 				text: this.text,
-				articleId: this.article.id,
+				articleId: this.article._id,
+			})
+			.then((comment) => {
+				console.log(comment)
+				this.$emit('addComment', comment)
 			})
 		},
 	},
