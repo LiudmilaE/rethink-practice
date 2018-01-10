@@ -64,8 +64,7 @@ app.use('/api', authRoutes);
 
 app.get(
 	"/api/secret",
-	// this is protecting the route and giving us access to
-  // req.user
+	// this is protecting the route and giving us access to req.user
   passport.authenticate('jwt', config.jwtSession),
   (req,res) => {
   	// send the user his own information

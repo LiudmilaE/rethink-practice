@@ -7,6 +7,8 @@
           <br>
           <label>Password <input v-model='password' required type="password"></label> {{password}}
           <br>
+          <label>Full name <input v-model='name' maxlength="10" required type="text"></label> {{name}}
+          <br>
           <label>Email <input v-model="email" required type="email"></label> {{email}}
           <br>
           <button>Signup </button>
@@ -25,6 +27,7 @@ export default {
           username: '',
           email: '',
           password: '',
+          name: '',
       }
   },
   methods : {
@@ -34,10 +37,11 @@ export default {
                 username: this.username,
                 email: this.email,
                 password: this.password,
+                name: this.name,
             }).then(() => {
-                this.$rooter.push('/login');
+                this.$router.push('/login');
             }).catch(err => {
-                this.error = err.response.data.error
+                if(err && err.response) this.error = err.response.data.error
                 console.log('Sighup error ', err)
             })
       }
