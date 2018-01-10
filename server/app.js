@@ -57,9 +57,11 @@ passport.use(strategy);
 
 const authRoutes = require('./routes/auth');
 const articlesRoutes = require('./routes/articles');
+const commentsRoutes = require('./routes/comments');
 
 app.use('/api', authRoutes);
 app.use('/api/articles', articlesRoutes);
+app.use('/api/comments', commentsRoutes);
 
 app.get(
 	"/api/secret",

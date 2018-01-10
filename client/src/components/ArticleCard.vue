@@ -6,6 +6,25 @@
 				<div class="content">
 					<p>{{ article.content }}</p>
 				</div>
+				<section>
+					<div class="media-content">
+						<form @submit.prevent="addComment">
+							<div class="field">
+								<textarea class="textarea" 
+									placeholder="Add a comment..." v-model="text"></textarea>
+						</div>
+						<div class="field">
+								<button class="button">Post comment</button>
+						</div>
+						</form>
+					</div>
+				</section>		
+				<section v-if="comments.length>0">
+					<br>
+					<comment-card v-for="(comment, index) in comments"
+						:key="comment.id" :comment="comment"
+						@deleteComment="deleteThisComment(index)"></comment-card>
+				</section>
 			</section>
 			<section v-else>
 				<form @submit.prevent="updateArticle">
@@ -18,9 +37,12 @@
 					<button class="button is-dark is-outlined">Save changes</button>
 				</form>
 			</section>
-			<footer class="card-footer" v-if="$root.user && article.authorId === $root.user._id">
-				<a href="#" class="card-footer-item success" @click.prevent="showForm=!showForm">{{ showForm ? "Cancel" : "Edit"}}</a>
-				<a href="#" @click.prevent="deleteArticle" class="card-footer-item danger">Delete</a>
+			<footer class="card-footer" 
+				v-if="$root.user && article.authorId === $root.user._id">
+				<a href="#" class="card-footer-item success" 
+					@click.prevent="showForm=!showForm">{{ showForm ? "Cancel" : "Edit"}}</a>
+				<a href="#" class="card-footer-item danger" 
+					@click.prevent="deleteArticle">Delete</a>
  			</footer>
 		</article>
 	</div>
@@ -28,6 +50,8 @@
 
 <script>
 import { deleteArticle, updateArticle } from "@/api/articles"
+import CommentCard from '@/components/CommentCard'
+import { addComment, deleteComment } from '@/api/comments'
 
 export default {
   data() {
@@ -36,12 +60,19 @@ export default {
 			comments: [],
 			showForm: false,
 			error: null,
+			text: '',
     }
   },
 	props: ['article'],
 	methods: {
 		deleteArticle () {
-			deleteArticle(this.article._id).
+			let id = this.article._id;
+			if (this.comments.length>0) {
+				this.comments.forEach(comment => {
+					deleteComment(comment.id)
+				});
+			}
+			deleteArticle(id).
 				then(this.$emit('deleteArticle', true))
 			this.$router.push('/profile');	
 		},
@@ -60,7 +91,17 @@ export default {
 					}
 				});			
 		},
+		addComment () {
+			this.error = null;
+			addComment({
+				text: this.text,
+				articleId: this.article.id,
+			})
+		},
 	},
+	components: {
+    CommentCard,
+  },
   created() {
 			// //show comments
 			// showComments().then(comments => { 
