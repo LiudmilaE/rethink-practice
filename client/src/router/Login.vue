@@ -6,7 +6,7 @@
 	    </b-notification>
         <form @submit.prevent="login">
             <b-field label="Username">
-                <b-input v-model='username' maxlength="10" required type="text"></b-input>
+                <b-input v-model='username' required type="text"></b-input>
             </b-field>
             <b-field label="Password">
                 <b-input v-model='password' required type="text"></b-input>

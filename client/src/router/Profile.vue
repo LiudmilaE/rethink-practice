@@ -1,10 +1,12 @@
 <template>
-  <section>
-      <h2>Welcome to your blog, {{ $root.user.username }}!</h2>
-      <button>Write new article</button>
-      <h3>My articles</h3>
-      <!-- <article-card v-for="(article, index) in articles" :key="article.id" :article="article"
-      @deleteArticle="deleteThisArticle(index)></article-card> -->
+  <section class="container">
+    <h2 class="title">Welcome to your blog, {{ $root.user.username }}!</h2>
+    <button class="button is-dark is-outlined">Write new article</button>
+    <section class="container">
+      <h3 class="subtitle">My articles</h3>
+        <!-- <article-card v-for="(article, index) in articles" :key="article.id" :article="article"
+        @deleteArticle="deleteThisArticle(index)></article-card> -->
+    </section>
   </section>
 </template>
 
@@ -38,4 +40,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  
+</style>
+
 

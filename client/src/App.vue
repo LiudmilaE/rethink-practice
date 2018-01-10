@@ -53,6 +53,11 @@ export default {
   }
 }
 
+.container {
+    margin-top: 5%; 
+    padding: 1%;
+  }
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
