@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Signup from './Signup'
 import Login from './Login'
 import Profile from './Profile'
+import ArticleForm from './ArticleForm'
 
 Vue.use(Router)
 
@@ -26,7 +27,11 @@ export default new Router({
     {
       path: '/profile',
       component: Profile,
-    }
+    },
+    {
+			path: '/articles/new',
+			component: ArticleForm,
+		},
 
   ]
 })

@@ -30,10 +30,12 @@ export default {
 	},
   },
   created() {
-      //TODO showTrips()
-    showUser(this.$root.user._id).then(user => {
-		this.user = user;
-	});
+      //TODO showArticles()
+    if (this.$root.user) {
+      showUser(this.$root.user._id).then(user => {
+        this.user = user;
+      });
+    } 
   },
   components: {
       ArticleCard,
