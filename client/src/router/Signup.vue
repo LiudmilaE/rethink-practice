@@ -1,18 +1,26 @@
 <template>
-  <div>
-      <h4>Please, signup</h4>
-      <section v-if="error">{{ error }}</section>
-      <form @submit.prevent="signup">
-          <label>Username <input v-model='username' maxlength="10" required type="text"></label> {{username}}
-          <br>
-          <label>Password <input v-model='password' required type="password"></label> {{password}}
-          <br>
-          <label>Full name <input v-model='name' maxlength="10" required type="text"></label> {{name}}
-          <br>
-          <label>Email <input v-model="email" required type="email"></label> {{email}}
-          <br>
-          <button>Signup </button>
-      </form>
+  <div class="container">
+      <h4 class="title is-4">Please, signup</h4>
+        <b-notification v-if="error" type="is-danger" has-icon>
+			{{ error }}
+		</b-notification>
+      <section class="container notification">
+        <form @submit.prevent="signup">
+            <b-field label="Username">
+                <b-input v-model='username' maxlength="10" required type="text"></b-input>
+            </b-field>
+            <b-field label="Password">
+                <b-input v-model='password' required type="password"></b-input>
+            </b-field>
+            <b-field label="Full name"> 
+                <b-input v-model='name' maxlength="10" required type="text"></b-input>
+            </b-field>
+            <b-field label="Email"> 
+                <b-input v-model="email" required type="email"></b-input>
+            </b-field>
+            <button class="button is-success">Signup</button>
+        </form>
+      </section>
   </div>
 </template>
 
