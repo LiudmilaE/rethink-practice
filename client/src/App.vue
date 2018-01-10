@@ -1,19 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" id="logo">
-    <nav>
-      <router-link v-if="!$root.user" to="/login" class="navbar-item toggle-item">
-				Login
-			</router-link>
-			<router-link v-if="!$root.user" to="/signup" class="navbar-item toggle-item">
-				Signup
-			</router-link>
-      <router-link v-if="$root.user" to="/profile" class="navbar-item toggle-item">
-				Profile
-			</router-link>
-      <a @click.prevent="logout" v-if="$root.user" href="#">
-				Logout
-			</a>
+    <nav class="navbar is-dark">
+      <div class="navbar-brand">
+        <router-link class="navbar-item" to="/">
+          <img src="./assets/logo.png" alt="Vue.js App Blog" height="28">
+        </router-link>
+        <div class="navbar-burger burger" data-target="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <router-link v-if="!$root.user" to="/login" class="navbar-item toggle-item">
+            Login
+          </router-link>
+          <router-link v-if="!$root.user" to="/signup" class="navbar-item toggle-item">
+            Signup
+          </router-link>
+          <router-link v-if="$root.user" to="/profile" class="navbar-item toggle-item">
+            Profile
+          </router-link>
+          <a @click.prevent="logout" v-if="$root.user" href="#" class="navbar-item toggle-item">
+            Logout
+          </a>
+        </div>
+      </div>
     </nav>
     <br>
     <router-view/>
@@ -41,7 +54,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
 }
 
 #logo {
