@@ -48,7 +48,7 @@ export default {
     } 
   },
   components: {
-      ArticleCard,
+    ArticleCard,
   }
 }
 </script>
