@@ -46,7 +46,7 @@ router.post('/login', (req, res, next) => {
         const payload = { id: user.id };
         // generate a token and send it
         const token = jwt.encode(payload, config.jwtSecret);
-        res.json({ token });
+        res.json({ token, user });
       }
     });
   } else {

@@ -8,6 +8,9 @@
 			<router-link v-if="!$root.user" to="/signup" class="navbar-item toggle-item">
 				Signup
 			</router-link>
+      <router-link v-if="$root.user" to="/profile" class="navbar-item toggle-item">
+				Profile
+			</router-link>
       <a @click.prevent="logout" v-if="$root.user" href="#">
 				Logout
 			</a>

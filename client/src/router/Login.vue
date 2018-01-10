@@ -27,7 +27,7 @@ export default {
 			login () {
 				login(this.username, this.password, this.$root)
 				.then(data => {
-					this.$router.push('/')
+					this.$router.push('/profile')
 				}).catch(err => {
 					this.error = err.response.data.error
 					console.error('Login err', err.response.data.error);
