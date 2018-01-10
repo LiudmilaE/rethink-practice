@@ -103,10 +103,17 @@ export default {
 				articleId: this.article._id,
 			})
 			.then((comment) => {
-				console.log(comment)
+				//console.log(comment)
 				this.$emit('addComment', comment)
+				showComments().then(comments => { 
+				let id = this.article._id
+				this.comments = comments.filter(comment => comment.articleId === id);
+			 });
 			})
 		},
+		deleteThisComment: function(index) {
+		  this.comments.splice(index, 1);
+    },
 	},
 	components: {
     CommentCard,
@@ -123,12 +130,11 @@ export default {
 
 <style scoped>
 	#comments-list {
-		list-style: circle !important;
-		margin-left: 40px;
+		margin-left: 2.5rem;
 	}
 
-	/* #total-comments {
-		margin-left: 30px;
-	} */
+	#total-comments {
+		margin: 2rem;
+	}
 
 </style>
