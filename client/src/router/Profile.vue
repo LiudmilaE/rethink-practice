@@ -32,7 +32,7 @@ export default {
 		  this.articles.splice(index, 1);
     },
     updateThisArticle: function(index, article) {
-      //TODO showArticle
+      //emited event shows changes in article
     },
     addComment: function () {
 

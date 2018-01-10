@@ -1,8 +1,8 @@
 <template>
   <div class="media-content">
     <div class="field">
-      <p class="control">
-        Comment goes here
+      <p>
+				{{comment.text}}
       </p>
     </div>
   </div>
@@ -15,7 +15,8 @@ export default {
       error: null,
       user: this.$root.user || null,
     }    
-  }
+	},
+	props: ['comment'],
 }
 </script>
 

@@ -18,13 +18,17 @@
 						</div>
 						</form>
 					</div>
-				</section>		
-				<section v-if="comments.length>0">
-					<br>
-					<comment-card v-for="(comment, index) in comments"
-						:key="comment.id" :comment="comment"
-						@deleteComment="deleteThisComment(index)"></comment-card>
 				</section>
+				<hr v-if="comments.length>0">
+				<div class="control" id="total-comments">
+					<span v-if="comments.length>0">{{comments.length}} comment(s)</span>
+				</div>
+					<ul v-if="comments.length>0" id="comments-list">
+						<li><comment-card v-for="(comment, index) in comments"
+							:key="comment.id" :comment="comment"
+							@deleteComment="deleteThisComment(index)"></comment-card>
+						</li>
+					</ul>
 			</section>
 			<section v-else>
 				<form @submit.prevent="updateArticle">
@@ -37,6 +41,7 @@
 					<button class="button is-dark is-outlined">Save changes</button>
 				</form>
 			</section>
+			<br>
 			<footer class="card-footer" 
 				v-if="$root.user && article.authorId === $root.user._id">
 				<a href="#" class="card-footer-item success" 
@@ -51,7 +56,7 @@
 <script>
 import { deleteArticle, updateArticle } from "@/api/articles"
 import CommentCard from '@/components/CommentCard'
-import { addComment, deleteComment } from '@/api/comments'
+import { addComment, deleteComment, showComments } from '@/api/comments'
 
 export default {
   data() {
@@ -107,12 +112,23 @@ export default {
     CommentCard,
   },
   created() {
-			// //show comments
-			// showComments().then(comments => { 
-			// 	let id = this.article._id
-			// 	this.comments = comments.filter(comment => comment.articleId === id);
-			//  });
+			//show comments
+			showComments().then(comments => { 
+				let id = this.article._id
+				this.comments = comments.filter(comment => comment.articleId === id);
+			 });
 		},
 }
 </script>
 
+<style scoped>
+	#comments-list {
+		list-style: circle !important;
+		margin-left: 40px;
+	}
+
+	/* #total-comments {
+		margin-left: 30px;
+	} */
+
+</style>
