@@ -7,8 +7,7 @@ let connection = null
 r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
 	if (err) throw err
 	connection = conn
-
-	console.log('Connected to RethinkDB from user model')
+	//console.log('Connected to RethinkDB from user model')
 })
 
 //user model goes here //TODO show the message about error "This username already exists"

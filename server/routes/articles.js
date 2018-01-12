@@ -14,14 +14,14 @@ router.get('/', (req, res, next) => {
 
 router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
   const { title, content } = req.body;
-  const authorId = req.user._id;
+  const authorId = req.user.id;
 
-  const article = new Article({
+  const model = new Article()
+  model.save({
     title, content, authorId
-  });
-
-  article.save()
+  })
   	.then(article => {
+      console.log(article)
     	res.json(article);
     })
     .catch(err => next(err));

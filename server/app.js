@@ -20,9 +20,6 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	console.log('Connected to RethinkDB')
 })
 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/blog', { useMongoClient: true });
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -66,16 +63,6 @@ const strategy = new Strategy({
 				done(new Error("User not found"));
 			}
 		})
-
-		// for mongoose and mongo
-    // User.findById(payload.id).then(user => {
-    // 	if(user){
-    // 		// make the user accessible in req.user
-    // 		done(null, user);
-    // 	} else {
-    // 		done(new Error("User not found"));
-    // 	}
-    // });
 	}
 );
 
@@ -87,7 +74,7 @@ const articlesRoutes = require('./routes/articles');
 const commentsRoutes = require('./routes/comments');
 
 app.use('/api', authRoutes);
-//app.use('/api/articles', articlesRoutes);
+app.use('/api/articles', articlesRoutes);
 //app.use('/api/comments', commentsRoutes);
 
 // //check for rethinkDB page  ----!!!!!!!!!!!!!  uncomment in the end
@@ -104,7 +91,6 @@ app.get(
   	res.json(req.user);
   }
 );
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
