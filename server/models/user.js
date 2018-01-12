@@ -1,10 +1,59 @@
 "use strict";
 const r = require('rethinkdb');
+const bcrypt = require('bcrypt');
 
-//user model goes here
+let connection = null 
+//Connecting to db
+r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
+	if (err) throw err
+	connection = conn
 
+	console.log('Connected to RethinkDB from user model')
+})
 
+//user model goes here //TODO show the message about error "This username already exists"
+class User {
+    addNewUser(userData, password, cb) {
+			if(userData && userData.username) {
+				r.table('users').filter({ username: userData.username}).run(connection)
+				.then(cursor => cursor.toArray((err, result) => {
+						if (err) throw err;
+						console.log(JSON.stringify(result, null, 2))
+						if (result.length===0) {
+							r.table('users').insert(userData).run(connection)
+						} else {
+							return { message : "This username already exists " }
+						}
+				})).catch(err => {
+					if (err) throw err
+				})
+				
+			}
+		} 
 
+		authenticate (username, password) {
+			
+			return new Promise(function (resolve, reject) {
+					bcrypt.compare(password, hash, function (error, response) {
+							if(error) return reject(error);
+							return resolve(response);
+					});
+
+					
+			});
+		}
+
+    findById(id) {
+        r.table('users').get(id).run(connection)
+    }
+
+    findUser(data) {
+				r.table('users').filter(data).run(connection)
+				
+    }
+}
+
+module.exports = User;
 
 //for mongo and mongoose
 

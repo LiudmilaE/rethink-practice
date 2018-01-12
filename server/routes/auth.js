@@ -1,48 +1,50 @@
 const express = require('express');
 const router = express.Router();
-//const User = require('../models/user');
+const User = require('../models/user');
 const jwt = require('jwt-simple');
 const passport = require('passport');
 const config = require('../config');
 var bcrypt = require('bcrypt');
-const r = require('rethinkdb');
-let connection = null 
-//Connecting to db
-r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
-	if (err) throw err
-	connection = conn
+// const r = require('rethinkdb');
 
-	console.log('Connected to RethinkDB from auth.js')
-})
+// let connection = null 
+// //Connecting to db
+// r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
+// 	if (err) throw err
+// 	connection = conn
 
-//helper function
-let authenticate = function (password, hash) {
-  return new Promise(function (resolve, reject) {
-      bcrypt.compare(password, hash, function (error, response) {
-          if(error) return reject(error);
-          return resolve(response);
-      });
-  });
-};
+// 	console.log('Connected to RethinkDB from auth.js')
+// })
+
 
 //signup rethinkdb
 //TODO: need to check if user already exists!!!!
 router.post('/signup', (req, res, next) => {
   // extract the info we need from the body of the request
+
+//pseudo code
+  // const user = new User();
+
+  // user.create({}).then(() => {
+  //   res.end({})
+  // }).catch(() => {
+
+  // }) 
+
+
   const { username, name, email, password } = req.body;
 
   Promise.resolve(password)
   .then(password => bcrypt.hashSync(password, bcrypt.genSaltSync(10), null))
   .then(hash => {
-    let user = {
+    let user = new User()
+    
+    user.addNewUser({
       username,
       name,
       email,
       hash
-    }
-
-    user = r.table('users').insert(user).run(connection);
-    return user
+    })
   })
   .then(() => {
       res.json({ success: true });
@@ -52,6 +54,7 @@ router.post('/signup', (req, res, next) => {
 });
 
 //login rethinkdb
+
 router.post('/login', (req, res, next) => {
   const { username, password } =req.body;
   //check if we have a username and password
