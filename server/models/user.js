@@ -39,13 +39,11 @@ class User {
 			if(id) {
 				return r.table('users').get(id).run(connection)
 				.then(data => {
-					//console.log('findById in model ',data)
 				})
 			} 
     }
 
-    findUser(userData) {
-				//r.table('users').filter(data).run(connection)
+    findUser(userData) { //find by username
 				if(userData && userData.username) {
 					return r.table('users').filter({ username: userData.username}).run(connection)
 				}
@@ -54,19 +52,3 @@ class User {
 
 
 module.exports = User;
-
-//for mongo and mongoose
-
-// const mongoose = require('mongoose');
-// const passportLocalMongoose = require('passport-local-mongoose');
-// const { Schema } = mongoose;
-
-// const userSchema = new Schema({
-// 	// the username and password are added by passportLocalMongoose
-// 	name: String,
-// 	email: String,
-// });
-
-// userSchema.plugin(passportLocalMongoose);
-
-// module.exports = mongoose.model('User', userSchema);
