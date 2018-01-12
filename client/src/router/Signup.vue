@@ -9,7 +9,7 @@
                 <b-input v-model='username' maxlength="10" required type="text"></b-input>
             </b-field>
             <b-field label="Full name"> 
-                <b-input v-model='name' maxlength="10" required type="text"></b-input>
+                <b-input v-model='name' maxlength="30" required type="text"></b-input>
             </b-field>
             <b-field label="Email"> 
                 <b-input v-model="email" required type="email"></b-input>
