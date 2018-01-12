@@ -87,13 +87,13 @@ const articlesRoutes = require('./routes/articles');
 const commentsRoutes = require('./routes/comments');
 
 app.use('/api', authRoutes);
-app.use('/api/articles', articlesRoutes);
-app.use('/api/comments', commentsRoutes);
+//app.use('/api/articles', articlesRoutes);
+//app.use('/api/comments', commentsRoutes);
 
-//check for rethinkDB page  ----!!!!!!!!!!!!!  uncomment in the end
-app.get('/', (req,res) => {
-	res.json({ message: "Welcome to Vue + RethinkDB blog!!!"})
-})
+// //check for rethinkDB page  ----!!!!!!!!!!!!!  uncomment in the end
+// app.get('/', (req,res) => {
+// 	res.json({ message: "Welcome to Vue + RethinkDB blog!!!"})
+// })
 
 app.get(
 	"/api/secret",

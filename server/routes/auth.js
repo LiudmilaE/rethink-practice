@@ -87,7 +87,7 @@ router.post('/login', (req, res, next) => {
     model.findUser({username})
       .then(cursor => cursor.toArray((err, result) => {
         if (err) throw err;
-        console.log(JSON.stringify(result, null, 2))
+        //console.log(JSON.stringify(result, null, 2))
     })).then((data) => {
         user = data[0]
         if (user && model.authenticate(user, password)) {
@@ -141,7 +141,9 @@ router.post('/login', (req, res, next) => {
 
 //get user page
 router.get('/users/:id', (req, res, next) => {
-  r.db('blog_project').table('users').get(req.params.id).run(connection)
+  let model = new User()
+
+  model.findById(req.params.id)
   .then(user => {
     res.json(user)
   })

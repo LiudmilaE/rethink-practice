@@ -40,11 +40,11 @@ export default {
   },
   created() {
     if (this.$root.user) {
-      showUser(this.$root.user._id).then(user => {
+      showUser(this.$root.user.id).then(user => {
         this.user = user;
       });
       showArticles().then(articles => {
-        let id = this.$root.user._id;
+        let id = this.$root.user.id;
         this.articles=articles.filter(article => {
           return article.authorId === id;
         });

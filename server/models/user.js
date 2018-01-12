@@ -38,6 +38,9 @@ class User {
     findById(id) {
 			if(id) {
 				return r.table('users').get(id).run(connection)
+				.then(data => {
+					//console.log('findById in model ',data)
+				})
 			} 
     }
 

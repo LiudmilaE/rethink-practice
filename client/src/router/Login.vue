@@ -33,8 +33,10 @@ export default {
 				.then(data => {
 					this.$router.push('/profile')
 				}).catch(err => {
-					this.error = err.response.data.error
+                    if (err && err.response) {
+                        this.error = err.response.data.error
 					console.error('Login err', err.response.data.error);
+                    }
 				});
 			},
 		},
