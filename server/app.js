@@ -4,26 +4,35 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const User = require('./models/user');
+//const User = require('./models/user');
 const config = require('./config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const cors = require('cors');
-
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/blog', { useMongoClient: true });
-
 const app = express();
+
+const r = require('rethinkdb');
+let connection = null 
+//Connecting to db
+r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
+	if (err) throw err
+	connection = conn
+
+	console.log('Connected to RethinkDB')
+})
+
+// const mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/blog', { useMongoClient: true });
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false })); //to use postman
 
 if (app.get('env') === 'development') {
 	app.use(
 		cors({
-			origin: 'http://localhost:8080',
+			origin: 'http://localhost:8081',
 		})
 	);
 }
@@ -41,17 +50,33 @@ const strategy = new Strategy({
 	},
 	(payload, done) => {
 		// payload is the object we encrypted at the route /api/token
-    // We get the user id, make sure the user exist by looking it up
-    User.findById(payload.id).then(user => {
-    	if(user){
-    		// make the user accessible in req.user
-    		done(null, user);
-    	} else {
-    		done(new Error("User not found"));
-    	}
-    });
+		// We get the user id, make sure the user exist by looking it up
+		
+		//for RethinkDB
+		let userInfo = r.table('users').get(payload.id).run(connection)
+
+		userInfo.then((user) => {
+			if (user) {
+				// make the user accessible in req.user
+				done(null, user);
+			} else {
+				done(new Error("User not found"));
+			}
+		
+		})
+
+		// for mongoose and mongo
+    // User.findById(payload.id).then(user => {
+    // 	if(user){
+    // 		// make the user accessible in req.user
+    // 		done(null, user);
+    // 	} else {
+    // 		done(new Error("User not found"));
+    // 	}
+    // });
 	}
 );
+
 //tell passport to use it
 passport.use(strategy);
 
@@ -62,6 +87,11 @@ const commentsRoutes = require('./routes/comments');
 app.use('/api', authRoutes);
 app.use('/api/articles', articlesRoutes);
 app.use('/api/comments', commentsRoutes);
+
+//check for rethinkDB page  ----!!!!!!!!!!!!!  uncomment in the end
+app.get('/', (req,res) => {
+	res.json({ message: "Welcome to Vue + RethinkDB blog!!!"})
+})
 
 app.get(
 	"/api/secret",

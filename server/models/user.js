@@ -1,12 +1,23 @@
-const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
-const { Schema } = mongoose;
+"use strict";
+const r = require('rethinkdb');
 
-const userSchema = new Schema({
-	// the username and password are added by passportLocalMongoose
-	name: String
-});
+//user model goes here
 
-userSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('User', userSchema);
+
+
+//for mongo and mongoose
+
+// const mongoose = require('mongoose');
+// const passportLocalMongoose = require('passport-local-mongoose');
+// const { Schema } = mongoose;
+
+// const userSchema = new Schema({
+// 	// the username and password are added by passportLocalMongoose
+// 	name: String,
+// 	email: String,
+// });
+
+// userSchema.plugin(passportLocalMongoose);
+
+// module.exports = mongoose.model('User', userSchema);
