@@ -4,7 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-//const User = require('./models/user');
+const User = require('./models/user');
 const config = require('./config');
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const cors = require('cors');
@@ -53,16 +53,18 @@ const strategy = new Strategy({
 		// We get the user id, make sure the user exist by looking it up
 		
 		//for RethinkDB
-		let userInfo = r.table('users').get(payload.id).run(connection)
-
-		userInfo.then((user) => {
+		let model = new User()
+		model.findbyId(payload.id)
+		.then(user => {
+			console.log("from app.js ",user)
+		})
+			.then((user) => {
 			if (user) {
 				// make the user accessible in req.user
 				done(null, user);
 			} else {
 				done(new Error("User not found"));
 			}
-		
 		})
 
 		// for mongoose and mongo

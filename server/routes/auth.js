@@ -17,6 +17,7 @@ var bcrypt = require('bcrypt');
 // })
 
 
+
 //signup rethinkdb
 //TODO: need to check if user already exists!!!!
 router.post('/signup', (req, res, next) => {
@@ -43,7 +44,7 @@ router.post('/signup', (req, res, next) => {
       username,
       name,
       email,
-      hash
+      password: hash
     })
   })
   .then(() => {
@@ -54,34 +55,54 @@ router.post('/signup', (req, res, next) => {
 });
 
 //login rethinkdb
-
+//const authenticate = User.authenticate();
 router.post('/login', (req, res, next) => {
   const { username, password } =req.body;
+
+  let model = new User()
   //check if we have a username and password
   if (username && password) {
     // test if the credentials are valid
-    authenticate(username, password, (err, user, failed) => {
-      if(err) {
-        // an unexpected error from the database
-        return next(err);
-      }
-      if(failed) {
-        // failed logging (bad password, too many attempts, etc)
-        return res.status(401).json({
-          error: failed.message
-        });
-      }
-      if(user) {
-        // success!! Save the user id
-        const payload = { id: user.id };
-        // generate a token and send it
-        const token = jwt.encode(payload, config.jwtSecret);
-        res.json({ token, user });
-      }
-    });
-  } else {
-    // unauthorized error
-    res.sendStatus(401);
+    // authenticate(username, password, (err, user, failed) => {
+    //   if(err) {
+    //     // an unexpected error from the database
+    //     return next(err);
+    //   }
+    //   if(failed) {
+    //     // failed logging (bad password, too many attempts, etc)
+    //     return res.status(401).json({
+    //       error: failed.message
+    //     });
+    //   }
+    //   if(user) {
+    //     // success!! Save the user id
+    //     const payload = { id: user.id };
+    //     // generate a token and send it
+    //     const token = jwt.encode(payload, config.jwtSecret);
+    //     res.json({ token, user });
+    //   }
+    // });
+    
+    let user 
+    model.findUser({username})
+      .then(cursor => cursor.toArray((err, result) => {
+        if (err) throw err;
+        console.log(JSON.stringify(result, null, 2))
+    })).then((data) => {
+        user = data[0]
+        if (user && model.authenticate(user, password)) {
+          // success!! Save the user id
+          const payload = { id: user.id };
+          // generate a token and send it
+          const token = jwt.encode(payload, config.jwtSecret);
+          res.json({ token, user });
+        } else {
+          // unauthorized error
+          res.sendStatus(401);
+        }
+    })
+    .catch(err => next(err))
+    
   }
 })
 

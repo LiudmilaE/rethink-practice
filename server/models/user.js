@@ -18,7 +18,7 @@ class User {
 				r.table('users').filter({ username: userData.username}).run(connection)
 				.then(cursor => cursor.toArray((err, result) => {
 						if (err) throw err;
-						console.log(JSON.stringify(result, null, 2))
+					//	console.log(JSON.stringify(result, null, 2))
 						if (result.length===0) {
 							r.table('users').insert(userData).run(connection)
 						} else {
@@ -31,27 +31,24 @@ class User {
 			}
 		} 
 
-		authenticate (username, password) {
-			
-			return new Promise(function (resolve, reject) {
-					bcrypt.compare(password, hash, function (error, response) {
-							if(error) return reject(error);
-							return resolve(response);
-					});
-
-					
-			});
+		authenticate (user, password) {
+			return bcrypt.compareSync(password, user.password)
 		}
 
     findById(id) {
-        r.table('users').get(id).run(connection)
+			if(id) {
+				return r.table('users').get(id).run(connection)
+			} 
     }
 
-    findUser(data) {
-				r.table('users').filter(data).run(connection)
-				
+    findUser(userData) {
+				//r.table('users').filter(data).run(connection)
+				if(userData && userData.username) {
+					return r.table('users').filter({ username: userData.username}).run(connection)
+				}
     }
 }
+
 
 module.exports = User;
 
