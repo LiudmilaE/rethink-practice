@@ -41,7 +41,8 @@ export function getMyInfo() {
 
 export function logout(vm) {
 	localStorage.removeItem('token');
-	vm.user = null;
+	localStorage.removeItem('user');
+	vm.$root.user = null;
 	delete axios.defaults.headers.common['Authorization'];
 }
 
