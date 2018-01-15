@@ -29,6 +29,7 @@ router.get('/', (req, res, next) => {
 
 router.delete('/:id', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
   let model = new Comment()
+  
   model.findByIdAndRemove(req.params.id)
 	.then(data => {
 		if (data && !data.deleted) {
