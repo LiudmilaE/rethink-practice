@@ -9,8 +9,9 @@
       </div>
     </div>
       <section class="container" v-if="articles.length>0">
-				<h3 class="subtitle">Explore our members' articles!
-					<span v-if="isChanged">WOW Changes!!!</span>
+				<h3 class="subtitle">Explore our members' articles! 
+					<span v-if="articles && articles.length>0">{{articles.length}} article{{ articles.length===0 ? "" : "s" }}.</span>
+					<span v-if="isChanged"> WOW Changes!!!</span>
 				</h3>
         <article-card v-for="article in articles" 
             :key="article.id" :article="article"></article-card>

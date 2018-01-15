@@ -10,6 +10,8 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	//console.log('Connected to RethinkDB from article model')
 })
 
+r.table('articles').changes().run(connection)
+
 //article model goes here
 class Article {
     save(articleData) {
@@ -28,7 +30,8 @@ class Article {
 					console.log('No articles yet!', cond)
 					return Promise.resolve([])
 				} else {
-					return r.table('articles').run(connection)
+					//sorted by time of creation
+					return r.table('articles').orderBy(r.desc('timestamp')).run(connection)
 					.then(cursor => cursor.toArray((err, result)=> {
 						if (err) throw err;
 						return result

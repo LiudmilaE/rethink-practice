@@ -22,7 +22,7 @@ router.post('/', passport.authenticate('jwt', config.jwtSession),  (req, res, ne
 
   let article = new Article()
   article.save({
-    title, content, authorId
+    title, content, authorId , timestamp: new Date()
   })
   	.then(() => {
     	res.json({ message: "succesfully inserted article" });
