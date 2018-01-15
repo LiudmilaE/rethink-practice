@@ -38,7 +38,8 @@ router.post('/', passport.authenticate('jwt', config.jwtSession),  (req, res, ne
 // });
 
 router.patch('/:id', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
-  Article.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  let model = new Article()
+  model.findByIdAndUpdate(req.params.id, req.body)
     .then(article => {
       res.json(article);
     }).catch(err => next(err));

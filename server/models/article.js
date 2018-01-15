@@ -7,7 +7,7 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	if (err) throw err
 	connection = conn
 
-	console.log('Connected to RethinkDB from article model')
+	//console.log('Connected to RethinkDB from article model')
 })
 
 //article model goes here
@@ -17,7 +17,7 @@ class Article {
 				//obj with generated_keys
 				return r.table('articles').insert(articleData).run(connection) 
       } else {
-        return { message : "Somethin goes wrong " }
+        return { message : "Something goes wrong " }
       }
 		}
 		
@@ -40,6 +40,10 @@ class Article {
 
 		findByIdAndRemove (id) {
 			return r.table('articles').get(id).delete().run(connection)
+		}
+
+		findByIdAndUpdate (id, articleData) {
+			return r.table('articles').get(id).update(articleData).run(connection)
 		}
 }
 
