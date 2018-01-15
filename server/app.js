@@ -51,13 +51,15 @@ const strategy = new Strategy({
 		
 		//for RethinkDB
 		let model = new User()
-		model.findbyId(payload.id)
+		console.log(model.findById(payload.id))
+		model.findById(payload.id)
 		.then(user => {
-			console.log("from app.js ",user)
+			console.log("from app.js ", user)
 		})
 			.then((user) => {
 			if (user) {
 				// make the user accessible in req.user
+				user
 				done(null, user);
 			} else {
 				done(new Error("User not found"));

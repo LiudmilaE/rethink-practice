@@ -14,17 +14,17 @@ router.get('/', (req, res, next) => {
 		.catch(err => next(err));
 })
 
-router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
+
+router.post('/', passport.authenticate('jwt', config.jwtSession),  (req, res, next) => {
   const { title, content } = req.body;
   const authorId = req.user.id;
 
-  const model = new Article()
-  model.save({
+  let article = new Article()
+  article.save({
     title, content, authorId
   })
-  	.then(article => {
-      console.log(article)
-    	res.json(article);
+  	.then(() => {
+    	res.json({ message: "succesfully inserted article" });
     })
     .catch(err => next(err));
 });
