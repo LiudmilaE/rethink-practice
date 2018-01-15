@@ -22,14 +22,20 @@ class Article {
 		}
 		
 		find () {
-			if (r.table('articles').isEmpty()) {
-				return Promise.resolve([])
-			}
-			return r.table('articles').run(connection)
-			.then(cursor => cursor.toArray((err, result)=> {
-				if (err) throw err;
-				return result
-			}))
+			return r.table('articles').isEmpty().run(connection)
+			.then(cond => {
+				if (cond) {
+					console.log('No articles yet!', cond)
+					return Promise.resolve([])
+				} else {
+					return r.table('articles').run(connection)
+					.then(cursor => cursor.toArray((err, result)=> {
+						if (err) throw err;
+						return result
+					}))
+				}
+			}).catch(err => {
+				if(err) throw err})
 		}
 
 		findByIdAndRemove (id) {

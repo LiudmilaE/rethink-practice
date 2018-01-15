@@ -9,6 +9,7 @@ router.get('/', (req, res, next) => {
 
   model.find()
     .then(articles => {
+      //console.log (articles)
 			res.json(articles);
 		})
 		.catch(err => next(err));
@@ -52,7 +53,7 @@ router.delete('/:id', passport.authenticate('jwt', config.jwtSession), (req, res
 					message: `The article with id '${req.params.id}' doesn't exist`,
 				});
 			}
-      res.json({ message: "The article with id '${req.params.id}' is deleted" });
+      res.json({ message: `The article with id '${req.params.id}' is deleted` });
     }).catch(err => next(err))
 });
 

@@ -6,15 +6,14 @@ const Comment = require('../models/comment');
 
 router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
   const { text, articleId } = req.body;
-  const writerId = req.user._id;
+  const writerId = req.user.id;
 
-  const comment = new Comment({
+  let comment = new Comment()
+  comment.save({
     text, articleId, writerId
-  });
-
-  comment.save()
-    .then(comment => {
-      res.json(comment);
+  })
+    .then(() => {
+    	res.json({ message: "succesfully inserted comment" });
     }).catch(err => next(err));
 });
 
@@ -23,20 +22,21 @@ router.get('/', (req, res, next) => {
 
   model.find()
     .then(comments => {
-      //console.log(comments)
+      console.log(comments)
       res.json(comments);
     }).catch(err => next(err));
 })
 
 router.delete('/:id', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
-	Comment.findByIdAndRemove(req.params.id)
-	.then(comment => {
-		if (!comment) {
+  let model = new Comment()
+  model.findByIdAndRemove(req.params.id)
+	.then(data => {
+		if (data && !data.deleted) {
 			return res.status(404).json({
 				message: `The comment with id '${req.params.id}' doesn't exist`,
 			});
 		}
-		res.json(comment);
+		res.json({ message: "The comment is deleted" });
 	}).catch(err => next(err))
 })
 

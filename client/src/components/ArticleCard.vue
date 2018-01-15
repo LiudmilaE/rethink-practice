@@ -104,8 +104,10 @@ export default {
 				//console.log(comment)
 				this.$emit('addComment', comment)
 				showComments().then(comments => { 
-				let id = this.article.id
-				this.comments = comments.filter(comment => comment.articleId === id);
+					if(comments.length > 0) {
+						let id = this.article.id
+						this.comments = comments.filter(comment => comment.articleId === id);
+					}
 			 });
 			})
 		},
@@ -120,7 +122,9 @@ export default {
 		//show comments
 		showComments().then(comments => { 
 			let id = this.article.id
-			this.comments = comments.filter(comment => comment.articleId === id);
+			if(comments.length>0){
+				this.comments = comments.filter(comment => comment.articleId === id);
+			}
 		});
 	},
 }
