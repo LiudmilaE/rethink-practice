@@ -8,6 +8,7 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	connection = conn
 
 		//TODO start  the changefeed 
+		//.filter(r.row('old_val').eq(null)) - filter new inserted
 	r.table('articles').changes().run(connection, function(err,cursor) {
 		cursor.each(console.log)
 	})
