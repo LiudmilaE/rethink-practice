@@ -25,7 +25,7 @@ class Comment {
 		return r.table('comments').isEmpty().run(connection)
 		.then(cond => {
 			if (cond) {
-				console.log('No comments yet!', cond)
+			//	console.log('No comments yet!', cond)
 				return Promise.resolve([])
 			} else {
 				return r.table('comments').orderBy(r.desc('timestamp')).run(connection)

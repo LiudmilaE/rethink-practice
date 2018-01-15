@@ -17,6 +17,7 @@ router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, nex
     }).catch(err => next(err));
 });
 
+//TODO need to filter by article
 router.get('/', (req, res, next) => {
   let model = new Comment()
 

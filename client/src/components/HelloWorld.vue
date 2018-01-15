@@ -35,7 +35,7 @@ export default {
   },
   created () {
     showArticles().then(articles => {
-      this.articles=articles
+      this.articles = articles
     })
   },
   components: {

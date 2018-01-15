@@ -7,6 +7,7 @@ const Article = require('../models/article');
 router.get('/', (req, res, next) => {
   const model = new Article()
 
+  //TODO need to filter by user
   model.find()
     .then(articles => {
       //console.log (articles)
@@ -14,7 +15,6 @@ router.get('/', (req, res, next) => {
 		})
 		.catch(err => next(err));
 })
-
 
 router.post('/', passport.authenticate('jwt', config.jwtSession),  (req, res, next) => {
   const { title, content } = req.body;
