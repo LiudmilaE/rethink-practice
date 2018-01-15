@@ -44,7 +44,8 @@ router.patch('/:id', passport.authenticate('jwt', config.jwtSession), (req, res,
 });
 
 router.delete('/:id', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
-  Article.findByIdAndRemove(req.params.id)
+	let model = new Article()
+  model.findByIdAndRemove(req.params.id)
     .then(article => {
 			if (!article) {
 				return res.status(404).json({

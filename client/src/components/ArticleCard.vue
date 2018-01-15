@@ -43,7 +43,7 @@
 			</section>
 			<br>
 			<footer class="card-footer" 
-				v-if="$root.user && article.authorId === $root.user._id">
+				v-if="$root.user && article.authorId === $root.user.id">
 				<a href="#" class="card-footer-item success" 
 					@click.prevent="showForm=!showForm">{{ showForm ? "Cancel" : "Edit"}}</a>
 				<a href="#" class="card-footer-item danger" 
@@ -71,8 +71,8 @@ export default {
 	props: ['article'],
 	methods: {
 		deleteArticle () {
-			let id = this.article._id;
-			let arrPromises = this.comments.map((comment) => deleteComment(comment._id));
+			let id = this.article.id;
+			let arrPromises = this.comments.map((comment) => deleteComment(comment.id));
 				Promise.all(arrPromises).then(() => {
 					deleteArticle(id).
 						then(this.$emit('deleteArticle', true))
@@ -83,7 +83,7 @@ export default {
 			this.error = null;
 			let data = {};
 
-			updateArticle(this.article._id, { title: this.article.title, content: this.article.content})
+			updateArticle(this.article.id, { title: this.article.title, content: this.article.content})
 				.then(article => {
 					this.$emit('updateArticle', article);
 					this.showForm = false;
@@ -98,13 +98,13 @@ export default {
 			this.error = null;
 			addComment({
 				text: this.text,
-				articleId: this.article._id,
+				articleId: this.article.id,
 			})
 			.then((comment) => {
 				//console.log(comment)
 				this.$emit('addComment', comment)
 				showComments().then(comments => { 
-				let id = this.article._id
+				let id = this.article.id
 				this.comments = comments.filter(comment => comment.articleId === id);
 			 });
 			})
@@ -119,7 +119,7 @@ export default {
   created() {
 			//show comments
 			showComments().then(comments => { 
-				let id = this.article._id
+				let id = this.article.id
 				this.comments = comments.filter(comment => comment.articleId === id);
 			 });
 		},

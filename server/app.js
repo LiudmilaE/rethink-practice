@@ -56,7 +56,7 @@ const strategy = new Strategy({
 			if (user) {
 				// make the user accessible in req.user
 				user
-				console.log("from app.js ", user)
+				//console.log("from app.js ", user)
 				done(null, user);
 			} else {
 				done(new Error("User not found"));
@@ -74,7 +74,7 @@ const commentsRoutes = require('./routes/comments');
 
 app.use('/api', authRoutes);
 app.use('/api/articles', articlesRoutes);
-//app.use('/api/comments', commentsRoutes);
+app.use('/api/comments', commentsRoutes);
 
 // //check for rethinkDB page  ----!!!!!!!!!!!!!  uncomment in the end
 // app.get('/', (req,res) => {

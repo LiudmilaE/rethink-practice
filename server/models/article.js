@@ -14,11 +14,8 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 class Article {
     save(articleData) {
       if(articleData) {
-				return r.table('articles').insert(articleData).run(connection)
-				.then((data) => {
-					console.log(data)
-					//findArticle
-				})
+				//obj with generated_keys
+				return r.table('articles').insert(articleData).run(connection) 
       } else {
         return { message : "Somethin goes wrong " }
       }
@@ -30,6 +27,10 @@ class Article {
 				if (err) throw err;
 				return result
 			}))
+		}
+
+		findByIdAndRemove (id) {
+			return r.table('articles').get(id).delete().run(connection)
 		}
 }
 
