@@ -19,7 +19,9 @@ router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, nex
 });
 
 router.get('/', (req, res, next) => {
-  Comment.find()
+  let model = new Comment()
+
+  model.find()
     .then(comments => {
       res.json(comments);
     }).catch(err => next(err));
