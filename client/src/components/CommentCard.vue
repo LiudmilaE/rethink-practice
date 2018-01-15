@@ -7,7 +7,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="media-right" v-if="user && user._id === comment.writerId">
+		<div class="media-right" v-if="user && user.id === comment.writerId">
 			<button class="delete" @click.prevent="deleteComment"></button>
 		</div>
 	</div>
@@ -26,7 +26,7 @@ export default {
 	props: ['comment'],
 	methods: {
 		deleteComment() {
-			deleteComment(this.comment._id)
+			deleteComment(this.comment.id)
 				.then(this.$emit('deleteComment', true))
 		}
 	},
