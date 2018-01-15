@@ -46,13 +46,13 @@ router.patch('/:id', passport.authenticate('jwt', config.jwtSession), (req, res,
 router.delete('/:id', passport.authenticate('jwt', config.jwtSession), (req, res, next) => {
 	let model = new Article()
   model.findByIdAndRemove(req.params.id)
-    .then(article => {
-			if (!article) {
+    .then(data => {
+			if (data && !data.deleted) {
 				return res.status(404).json({
 					message: `The article with id '${req.params.id}' doesn't exist`,
 				});
 			}
-      res.json(article);
+      res.json({ message: "The article with id '${req.params.id}' is deleted" });
     }).catch(err => next(err))
 });
 

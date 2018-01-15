@@ -11,15 +11,21 @@ r.connect({ host: 'localhost', port: 28015, db: 'blog-project' }, (err, conn) =>
 
 //comment model goes here
 class Comment {
-    find () {
-        r.table('comments').run(connection)
-        .then(cursor => cursor.toArray((err, result) => {
-            if (err) throw err
-            console.log(result)
-            return result
-        }))
-    }
+  find () {
+		if (r.table('comments').isEmpty()) {
+			return Promise.resolve([])
+		}
+    return r.table('comments').run(connection)
+    .then(cursor => cursor.toArray((err, result) => {
+      if (err) throw err
+        //console.log(result)
+        return result
+			})
+		)
+  }
 }
+
+module.exports = Comment
 
 // const mongoose = require('mongoose');
 // const timestamps = require('mongoose-timestamp');

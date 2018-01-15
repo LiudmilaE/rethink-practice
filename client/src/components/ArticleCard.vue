@@ -117,12 +117,12 @@ export default {
     CommentCard,
   },
   created() {
-			//show comments
-			showComments().then(comments => { 
-				let id = this.article.id
-				this.comments = comments.filter(comment => comment.articleId === id);
-			 });
-		},
+		//show comments
+		showComments().then(comments => { 
+			let id = this.article.id
+			this.comments = comments.filter(comment => comment.articleId === id);
+		});
+	},
 }
 </script>
 

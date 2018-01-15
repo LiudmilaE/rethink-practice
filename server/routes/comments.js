@@ -23,6 +23,7 @@ router.get('/', (req, res, next) => {
 
   model.find()
     .then(comments => {
+      //console.log(comments)
       res.json(comments);
     }).catch(err => next(err));
 })

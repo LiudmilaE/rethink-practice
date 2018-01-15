@@ -45,9 +45,7 @@ export default {
       });
       showArticles().then(articles => {
         let id = this.$root.user.id;
-        this.articles=articles.filter(article => {
-          return article.authorId === id;
-        });
+        this.articles = articles.filter(article => article.authorId === id );
       })
     } 
   },
