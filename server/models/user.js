@@ -19,7 +19,7 @@ class User {
 						if (err) throw err;
 					//	console.log(JSON.stringify(result, null, 2))
 						if (result.length===0) {
-							r.table('users').insert(userData).run(connection)
+							return r.table('users').insert(userData).run(connection)
 						} else {
 							return { message : "This username already exists " }
 						}

@@ -5,7 +5,9 @@ const config = require('../config');
 const Article = require('../models/article');
 
 router.get('/', (req, res, next) => {
-  Article.find()
+  const model = new Article()
+
+  model.find()
     .then(articles => {
 			res.json(articles);
 		})

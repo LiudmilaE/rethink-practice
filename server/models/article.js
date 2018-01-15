@@ -1,5 +1,6 @@
 "use strict"
 const r = require('rethinkdb');
+
 let connection = null 
 //Connecting to db
 r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
@@ -9,12 +10,11 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	console.log('Connected to RethinkDB from article model')
 })
 
-
 //article model goes here
 class Article {
     save(articleData) {
       if(articleData) {
-				r.table('articles').insert(articleData).run(connection)
+				return r.table('articles').insert(articleData).run(connection)
 				.then((data) => {
 					console.log(data)
 					//findArticle
@@ -22,7 +22,15 @@ class Article {
       } else {
         return { message : "Somethin goes wrong " }
       }
-    }
+		}
+		
+		find () {
+			return r.table('articles').run(connection)
+			.then(cursor => cursor.toArray((err, result)=> {
+				if (err) throw err;
+				return result
+			}))
+		}
 }
 
 module.exports = Article;
