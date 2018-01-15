@@ -51,6 +51,7 @@ router.post('/login', (req, res, next) => {
         if (user && model.authenticate(user, password)) {
           // success!! Save the user id
           const payload = { id: user.id };
+          console.log('in auth routes payload ',payload)
           // generate a token and send it
           const token = jwt.encode(payload, config.jwtSecret);
           res.json({ token, user });

@@ -51,7 +51,7 @@ const strategy = new Strategy({
 		
 		//for RethinkDB
 		let model = new User()
-		console.log(model.findById(payload.id))
+		console.log("payload", payload)
 		model.findById(payload.id)
 		.then(user => {
 			console.log("from app.js ", user)
