@@ -36,10 +36,9 @@ class User {
 
     findById(id) {
 			if(id) {
-				r.table('users').get(id).run(connection, function (err, result) {
+				return r.table('users').get(id).run(connection, function (err, result) {
 					if(err) throw err
-					console.log(JSON.stringify(result, null, 2))
-					return result
+					console.log("from user model findById", JSON.stringify(result, null, 2))
 				})
 			} 
     }
