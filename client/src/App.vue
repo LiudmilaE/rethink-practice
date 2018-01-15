@@ -29,6 +29,13 @@
       </div>
     </nav>
     <router-view/>
+    <footer class="footer">
+      <div class="container">
+				<div class="content has-text-centered">
+					<p> Powered by VueJS <a target="_blank" href="https://vuejs.org/" ><img src="./assets/logo.png" id="vue-logo" alt="Vue.js"></a></p>
+				</div>
+			</div>
+    </footer>
   </div>
 </template>
 
@@ -54,9 +61,13 @@ export default {
 }
 
 .container {
-    margin-top: 5%; 
-    padding: 1%;
-  }
+  margin-top: 2%; 
+  padding: 1%;
+}
+
+.box {
+  box-shadow: 4px 4px 8px 4px rgba(0, 0, 0, 0.2), 2px 6px 20px 2px rgba(0, 0, 0, 0.19);
+}
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -70,5 +81,14 @@ export default {
 #logo {
   width: 100px;
   height: 100px;
+}
+
+#vue-logo{
+	height: 15px;
+	width: 15px;
+}
+
+.footer {
+  padding: 1rem;
 }
 </style>

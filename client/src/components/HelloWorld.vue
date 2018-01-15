@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div class="hello hero is-warning is-bold is-medium">
+    <div class="hello hero is-warning is-bold">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Blog - Vue.js App </h1>
-          <h2 class="subtitle">Lorem ipsum dolor sit amet, ne quo quas vocibus appellantur, sumo soleat vim ex. Ei duo illud malis tacimates.</h2>
+          <h1 class="title is-1">Blog - Vue.js App </h1>
+          <h2 class="subtitle is-3">Lorem ipsum dolor sit amet, ne quo quas vocibus appellantur, sumo soleat vim ex. Ei duo illud malis tacimates.</h2>
         </div>
       </div>
     </div>
       <section class="container" v-if="articles.length>0">
+				<h3 class="subtitle">Explore our members' articles!
+					<span v-if="isChanged">WOW Changes!!!</span>
+				</h3>
         <article-card v-for="article in articles" 
             :key="article.id" :article="article"></article-card>
       </section>
@@ -25,7 +28,8 @@ export default {
     return {
       user: null || this.$root.user,
       articles: [],
-      comments: []
+      comments: [],
+			isChanged: false,
     }
   },
   created () {
