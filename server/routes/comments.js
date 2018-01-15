@@ -10,7 +10,7 @@ router.post('/', passport.authenticate('jwt', config.jwtSession), (req, res, nex
 
   let comment = new Comment()
   comment.save({
-    text, articleId, writerId
+    text, articleId, writerId, timestamp: new Date()
   })
     .then(() => {
     	res.json({ message: "succesfully inserted comment" });

@@ -28,7 +28,7 @@ class Comment {
 				console.log('No comments yet!', cond)
 				return Promise.resolve([])
 			} else {
-				return r.table('comments').run(connection)
+				return r.table('comments').orderBy(r.desc('timestamp')).run(connection)
 				.then(cursor => cursor.toArray((err, result) => {
 					if (err) throw err
 						//console.log(result)
