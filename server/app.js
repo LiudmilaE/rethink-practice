@@ -16,7 +16,17 @@ let connection = null
 r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) => {
 	if (err) throw err
 	connection = conn
-
+	
+	//check if db exists
+	r.dbList().contains('blog_project')
+	.do(function(databaseExists) {
+		return r.branch(
+			databaseExists,
+			{ dbs_created: 0 },
+			r.dbCreate('blog_project')
+		);
+	}).run(connection);
+	
 	console.log('Connected to RethinkDB')
 })
 
@@ -38,12 +48,12 @@ passport.initialize();
 // Create the strategy for JWT
 const strategy = new Strategy({
 		// this is a config we pass to the strategy
-	  // it needs to secret to decrypt the payload of the
-	  // token.
-	  secretOrKey: config.jwtSecret,
-    // This options tells the strategy to extract the token
-    // from the header of the request
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
+		// it needs to secret to decrypt the payload of the
+		// token.
+		secretOrKey: config.jwtSecret,
+	// This options tells the strategy to extract the token
+	// from the header of the request
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
 	},
 	(payload, done) => {
 		// payload is the object we encrypted at the route /api/token
@@ -80,28 +90,28 @@ app.use('/api/comments', commentsRoutes);
 app.get(
 	"/api/secret",
 	// this is protecting the route and giving us access to req.user
-  passport.authenticate('jwt', config.jwtSession),
-  (req,res) => {
-  	// send the user his own information
-  	res.json(req.user);
-  }
+	passport.authenticate('jwt', config.jwtSession),
+	(req,res) => {
+	// send the user his own information
+	res.json(req.user);
+	}
 );
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+	const err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 // error handler
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  // return the error message only in development mode
-  res.json({
-    message: err.message,
-    error: req.app.get('env') === 'development' ? err.message : {}
-  });
+	res.status(err.status || 500);
+	// return the error message only in development mode
+	res.json({
+	message: err.message,
+	error: req.app.get('env') === 'development' ? err.message : {}
+	});
 });
 
 module.exports = app;
