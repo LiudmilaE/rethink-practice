@@ -7,11 +7,13 @@
         </div>
       </div>
     </div>
+    <aside>
+      <router-link to="/articles/new">
+        <span class="button is-dark is-outlined">Write new article</span>
+      </router-link>
+    </aside>
     <section class="container" v-if="articles.length>0">
-      <h3 class="title is-3">My articles
-        <router-link to="/articles/new">
-          <span class="button is-dark is-outlined">Write new article</span>
-        </router-link>
+      <h3 class="title is-3">Your articles:
       </h3>
         <article-card v-for="(article, index) in articles" 
           :key="article.id" :article="article"
@@ -63,7 +65,9 @@ export default {
 </script>
 
 <style scoped>
-  
+  aside {
+    margin: 1%;
+  }
 </style>
 
 

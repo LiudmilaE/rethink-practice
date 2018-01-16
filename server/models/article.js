@@ -27,8 +27,6 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 				cursor.each(console.log)
 			})
 		})
-	}).error(function(error){
-		throw error;
 	})
 
 	//console.log('Connected to RethinkDB from article model')
