@@ -7,10 +7,28 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	if (err) throw err
 	connection = conn
 
-		//TODO start  the changefeed 
-		//.filter(r.row('old_val').eq(null)) - filter new inserted
-	r.table('articles').changes().run(connection, function(err,cursor) {
-		cursor.each(console.log)
+	//Does the table exist?
+	r.table('articles').limit(1).run(connection, function(error, cursor){
+		var promise;
+		if (error) {
+			console.log('Creating table...');
+			promise = r.tableCreate('articles').run(connection);
+		} else {
+			promise = cursor.toArray();
+		}
+
+		//The table exists, setup the update listener
+		promise.then(function(result) {
+
+			console.log("Setting up update listener...")
+				//TODO start  the changefeed 
+				//.filter(r.row('old_val').eq(null)) - filter new inserted
+			r.table('articles').changes().run(connection).then(function(cursor) {
+				cursor.each(console.log)
+			})
+		})
+	}).error(function(error){
+		throw error;
 	})
 
 	//console.log('Connected to RethinkDB from article model')
