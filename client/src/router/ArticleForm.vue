@@ -34,7 +34,9 @@ export default {
 				title: this.title,
 				content: this.content,
 			})
-			.then(() => {
+			.then((data) => {
+				console.log(data)
+				this.$socket.emit('articleAdd', data.id)
 				this.$router.push('/profile');
 			}).catch(err => {
 				if(err && err.response) {

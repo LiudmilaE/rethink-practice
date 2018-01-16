@@ -24,9 +24,12 @@ router.post('/', passport.authenticate('jwt', config.jwtSession),  (req, res, ne
   article.save({
     title, content, authorId , timestamp: new Date()
   })
-  	.then(() => {
-    	res.json({ message: "succesfully inserted article" });
-    })
+  	.then((data) => {
+      article.findById(data.generated_keys[0]).then(article => {
+        res.json({ article,
+          message: "succesfully inserted article" });
+      })
+    })	
     .catch(err => next(err));
 });
 

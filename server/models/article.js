@@ -1,5 +1,7 @@
 "use strict"
 const r = require('rethinkdb');
+var sockio = require("socket.io");
+var io = sockio.listen()
 
 let connection = null 
 //Connecting to db
@@ -24,23 +26,30 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 				//TODO start  the changefeed 
 				//.filter(r.row('old_val').eq(null)) - filter new inserted
 			r.table('articles').changes().run(connection).then(function(cursor) {
-				cursor.each(console.log)
+				cursor.each(function(err, item) {
+					if (item && item.new_val) {  //only when a new article is added
+						console.log(item.new_val)
+						io.sockets.emit("articleAdd", item.new_val);
+					}		
+				});
 			})
 		})
 	})
-
 	//console.log('Connected to RethinkDB from article model')
+
 })
+
+	
 
 //article model goes here
 class Article {
-  save(articleData) {
-    if(articleData) {
+	save(articleData) {
+		if(articleData) {
 			//obj with generated_keys
 			return r.table('articles').insert(articleData).run(connection) 
-    } else {
-      return { message : "Something goes wrong " }
-    }
+		} else {
+			return { message : "Something goes wrong " }
+		}
 	}
 		
 	find (filterData) {
@@ -60,6 +69,10 @@ class Article {
 			}
 		}).catch(err => {
 			if(err) throw err})
+	}
+
+	findById (id) {
+		return r.table('articles').get(id).run(connection)
 	}
 
 	findByIdAndRemove (id) {
