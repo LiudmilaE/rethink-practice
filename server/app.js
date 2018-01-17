@@ -14,11 +14,11 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
-//TODO need to fix bug - never goes here
+//TODO need to fix bug - data null
 io.on('connection', function(socket){
   console.log("socket connected in express")
   socket.on('articleAdd', function(data){
-		console.log(data);
+		//console.log("sockets in app.js", data);
     io.emit('articleAdd', data);
 	});
 	socket.on('disconnect', function(){
@@ -63,7 +63,7 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 			r.table('articles').changes().run(connection).then(function(cursor) {
 				cursor.each(function(err, item) {
 					if (item && item.new_val) {  //only when a new article is added
-						console.log(item.new_val)
+						//console.log(item.new_val)
 						io.sockets.emit("articleAdd", item.new_val);
 					}		
 				});

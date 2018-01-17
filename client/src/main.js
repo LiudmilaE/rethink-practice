@@ -24,17 +24,6 @@ new Vue({
   render: h => h(App),
   data: {
     user: null,
-  },
-  sockets: {
-    connect() {
-      console.log('sockets connected')
-    },
-    disconnect() {
-      console.log('sockets disconnected')
-    },
-    articleAdd: function(val){
-      console.log(val)
-      console.log('this method was fired by the socket server. eg: io.emit("articleAdd", data)')
-    }
+    //newArticle: null,
   },
 })

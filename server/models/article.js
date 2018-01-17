@@ -9,32 +9,14 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 	if (err) throw err
 	connection = conn
 
-	// //Does the table exist?
-	// r.table('articles').limit(1).run(connection, function(error, cursor){
-	// 	var promise;
-	// 	if (error) {
-	// 		console.log('Creating table...');
-	// 		promise = r.tableCreate('articles').run(connection);
-	// 	} else {
-	// 		promise = cursor.toArray();
-	// 	}
-
-	// 	//The table exists, setup the update listener
-	// 	promise.then(function(result) {
-
-	// 		console.log("Setting up update listener...")
-	// 			//TODO start  the changefeed 
-	// 			//.filter(r.row('old_val').eq(null)) - filter new inserted
-	// 		r.table('articles').changes().run(connection).then(function(cursor) {
-	// 			cursor.each(function(err, item) {
-	// 				if (item && item.new_val) {  //only when a new article is added
-	// 					console.log(item.new_val)
-	// 					io.sockets.emit("articleAdd", item.new_val);
-	// 				}		
-	// 			});
-	// 		})
-	// 	})
-	// })
+	//Does the table exist?
+	r.table('articles').limit(1).run(connection, function(error, cursor){
+		if (error) {
+			console.log('Creating table articles...');
+			r.tableCreate('articles').run(connection);
+		} 
+	})
+	
 	//console.log('Connected to RethinkDB from article model')
 
 })
@@ -60,8 +42,8 @@ class Article {
 				console.log('No articles yet!', cond)
 				return Promise.resolve([])
 			} else {
-				//sorted by time of creation and limited to 10
-				return r.table('articles').filter(f).orderBy(r.desc('timestamp')).limit(10).run(connection)
+				//sorted by time of creation and limited to 50 last
+				return r.table('articles').filter(f).orderBy(r.desc('timestamp')).limit(50).run(connection)
 				.then(cursor => cursor.toArray((err, result)=> {
 					if (err) throw err;
 					return result

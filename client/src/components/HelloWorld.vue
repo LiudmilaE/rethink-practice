@@ -11,6 +11,7 @@
       <section class="container" v-if="articles.length>0">
 				<h3 class="subtitle">Explore our members' articles! 
 					<span v-if="articles && articles.length>0">{{articles.length}} article{{ articles.length===0 ? "" : "s" }}.</span>
+          {{ }}
 					<span v-if="isChanged"> WOW Changes!!!</span>
 				</h3>
         <article-card v-for="article in articles" 
@@ -30,7 +31,29 @@ export default {
       user: null || this.$root.user,
       articles: [],
       comments: [],
-			isChanged: false,
+      isChanged: false,
+      newArticle: null
+    }
+  },
+  sockets: {
+    connect() {
+      console.log('sockets connected from HelloWorld')
+    },
+    disconnect() {
+      console.log('sockets disconnected')
+    },
+    articleAdd: function(val){
+      //console.log(val)
+      //console.log('this method was fired by the socket server in HelloWorld component')
+      this.articles.push(val)
+      return val
+    }
+  },
+  watch: {
+    articles () {
+      showArticles().then(articles => {
+        this.articles = articles
+      })
     }
   },
   created () {
