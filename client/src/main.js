@@ -8,7 +8,10 @@ import 'buefy/lib/buefy.css';
 import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 
-export const SocketInstance = socketio('http://localhost:8081');
+export const SocketInstance = socketio('http://localhost:3000'); //should be the same as on server side
+SocketInstance.on('connection', function (data) {
+  console.log(data);
+})
 
 Vue.use(VueSocketIO, SocketInstance)
 Vue.use(Buefy);

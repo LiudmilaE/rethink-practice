@@ -14,19 +14,19 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+//TODO need to fix bug - never goes here
 io.on('connection', function(socket){
   console.log("socket connected in express")
   socket.on('articleAdd', function(data){
 		console.log(data);
     io.emit('articleAdd', data);
-  });
+	});
+	socket.on('disconnect', function(){
+		console.log('disconneted')
+	})
 });
 
-//passing our socket to our response in middleware.
-app.use(function(req, res, next){
-  res.io = io;
-  next();
-});
+
 
 const r = require('rethinkdb');
 let connection = null 
@@ -122,6 +122,12 @@ const strategy = new Strategy({
 
 //tell passport to use it
 passport.use(strategy);
+
+//passing our socket to our response in middleware.
+app.use(function(req, res, next){
+  res.io = io;
+  next();
+});
 
 const authRoutes = require('./routes/auth');
 const articlesRoutes = require('./routes/articles');
