@@ -22,6 +22,7 @@
     "passport-jwt": "^3.0.1",
     "rethinkdb": "^2.3.3",
     "rethinkdb-init": "^0.2.2",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
   }
 }

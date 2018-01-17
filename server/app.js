@@ -10,6 +10,24 @@ const { Strategy, ExtractJwt } = require('passport-jwt');
 const cors = require('cors');
 const app = express();
 
+//creates our apps http server - because of express generator we should fix bin/www!!!
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+  console.log("socket connected in express")
+  socket.on('articleAdd', function(data){
+		console.log(data);
+    io.emit('articleAdd', data);
+  });
+});
+
+//passing our socket to our response in middleware.
+app.use(function(req, res, next){
+  res.io = io;
+  next();
+});
+
 const r = require('rethinkdb');
 let connection = null 
 //Connecting to db
@@ -25,7 +43,34 @@ r.connect({ host: 'localhost', port: 28015, db: "blog_project" }, (err, conn) =>
 			{ dbs_created: 0 },
 			r.dbCreate('blog_project')
 		);
-	}).run(connection);
+	}).run(connection).then(()=>{
+		//Does the table exist?
+	r.table('articles').limit(1).run(connection, function(error, cursor){
+		var promise;
+		if (error) {
+			console.log('Creating table...');
+			promise = r.tableCreate('articles').run(connection);
+		} else {
+			promise = cursor.toArray();
+		}
+
+		//The table exists, setup the update listener
+		promise.then(function(result) {
+
+			console.log("Setting up update listener...")
+				//TODO start  the changefeed 
+				//.filter(r.row('old_val').eq(null)) - filter new inserted
+			r.table('articles').changes().run(connection).then(function(cursor) {
+				cursor.each(function(err, item) {
+					if (item && item.new_val) {  //only when a new article is added
+						console.log(item.new_val)
+						io.sockets.emit("articleAdd", item.new_val);
+					}		
+				});
+			})
+		})
+	})
+	})
 	
 	console.log('Connected to RethinkDB')
 })
@@ -114,4 +159,5 @@ app.use((err, req, res, next) => {
 	});
 });
 
-module.exports = app;
+//export our server there as well since we're declaring it on line #14 instead of bin/www.
+module.exports = {app: app, server: server};
